@@ -9,6 +9,7 @@ mongoose.connect("mongodb://localhost:27017/restdata", { useNewUrlParser: true, 
 }).catch((err) => {
     console.log(err)
 })
+
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
@@ -19,6 +20,7 @@ const productSchema = new mongoose.Schema({
     description: String,
     price: Number,
 })
+
 // Create a model based on the schema
 const product = new mongoose.model("product", productSchema);
 
@@ -58,8 +60,10 @@ app.put("/product/:id", async (req, res) => {
     })
 
 })
+
 //Delete Product
 app.delete("/product/:id", async (req, res) => {
+    
     const products = await product.findByIdAndRemove(req.params.id);
 
     if (!products) {
@@ -69,14 +73,13 @@ app.delete("/product/:id", async (req, res) => {
         })
     }
 
-    // await product.remove();
-
     res.status(200).json({
         success: true,
         message: "product is deleted successfully"
     })
 })
 
+//server
 app.listen(4500, () => {
     console.log("Server is working on Port 4500")
 })
